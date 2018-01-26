@@ -12,6 +12,16 @@ import java.util.List;
 
 public class BlockChain {
 
+    private static BlockChain mInstance = new BlockChain();
+
+    public static BlockChain getInstance() {
+        return mInstance;
+    }
+
+    private BlockChain(){
+        super();
+    }
+
     private ArrayList<Block> mChain = new ArrayList<>();
 
     private ArrayList<Transactions> mTransactions = new ArrayList<>();

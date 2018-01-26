@@ -1,5 +1,7 @@
 package com.andforce.block.http;
 
+import com.andforce.block.BlockChain;
+import com.andforce.block.utils.HashUtils;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
@@ -10,7 +12,13 @@ import static org.eclipse.jetty.servlet.ServletContextHandler.NO_SESSIONS;
 public class JerseyDemo {
 
 
+    private static BlockChain sBlockChain = BlockChain.getInstance();
+
     public static void main(String[] args) throws Exception {
+
+        sBlockChain.newBlock(1, HashUtils.getSHA256StrJava("1"));
+
+
         Server server = new Server(8080);
 
         ServletContextHandler servletContextHandler = new ServletContextHandler(NO_SESSIONS);
@@ -20,10 +28,12 @@ public class JerseyDemo {
 
         ServletHolder servletHolder = servletContextHandler.addServlet(ServletContainer.class, "/api/*");
         servletHolder.setInitOrder(0);
-        servletHolder.setInitParameter(
-                "jersey.config.server.provider.packages",
-                "com.andforce.block.http.resources"
-        );
+
+        String api = BlockChainApi.class.getPackage().getName();
+        servletHolder.setInitParameter("jersey.config.server.provider.packages", api);
+
+        servletHolder.setInitParameter("jersey.config.server.provider.classnames",
+                "org.glassfish.jersey.jackson.JacksonFeature"); // 自动将对象映射成json返回
 
         try {
             server.start();

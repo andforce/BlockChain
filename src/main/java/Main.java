@@ -11,11 +11,10 @@ import java.io.IOException;
 
 public class Main {
 
-    static BlockChain blockChain;
+    static BlockChain blockChain = BlockChain.getInstance();
 
     public static void main(String[] args) throws Exception {
 
-        blockChain = new BlockChain();
         blockChain.newBlock(1, HashUtils.getSHA256StrJava("1"));
 
         Server server = new Server(8080);
