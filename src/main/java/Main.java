@@ -1,35 +1,54 @@
 import com.andforce.block.BlockChainHelper;
+import com.andforce.block.http.BlockChainApi;
 import com.andforce.block.utils.HashUtils;
 import com.andforce.block.utils.JsonUtils;
 import org.eclipse.jetty.server.Request;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.server.handler.AbstractHandler;
+import org.eclipse.jetty.servlet.ServletContextHandler;
+import org.eclipse.jetty.servlet.ServletHolder;
+import org.glassfish.jersey.servlet.ServletContainer;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+import static org.eclipse.jetty.servlet.ServletContextHandler.NO_SESSIONS;
+
 public class Main {
 
-    static BlockChainHelper sBlockChainHelper = BlockChainHelper.getInstance();
+    private static BlockChainHelper sBlockChainHelper = BlockChainHelper.getInstance();
 
     public static void main(String[] args) throws Exception {
 
         sBlockChainHelper.newBlock(1, "1");
 
+
         Server server = new Server(8080);
-        server.setHandler(new HelloHandler());
 
-        server.start();
-    }
+        ServletContextHandler servletContextHandler = new ServletContextHandler(NO_SESSIONS);
 
-    public static class HelloHandler extends AbstractHandler {
-        public void handle(String target, Request baseRequest, HttpServletRequest request, HttpServletResponse response)
-                throws IOException {
-            response.setContentType("application/json");
-            response.setStatus(HttpServletResponse.SC_OK);
-            baseRequest.setHandled(true);
-            response.getWriter().println(JsonUtils.toStringSortByKey(sBlockChainHelper.getChain()));
+        servletContextHandler.setContextPath("/");
+        server.setHandler(servletContextHandler);
+
+        ServletHolder servletHolder = servletContextHandler.addServlet(ServletContainer.class, "/*");
+        servletHolder.setInitOrder(0);
+
+        String api = BlockChainApi.class.getPackage().getName();
+        servletHolder.setInitParameter("jersey.config.server.provider.packages", api);
+
+        servletHolder.setInitParameter("jersey.config.server.provider.classnames",
+                "org.glassfish.jersey.jackson.JacksonFeature"); // 自动将对象映射成json返回
+
+        try {
+            server.start();
+            server.join();
+        } catch (Exception ex) {
+            System.exit(1);
+        }
+
+        finally {
+            server.destroy();
         }
     }
 
