@@ -9,7 +9,7 @@ public class Block {
     private long timestamp;
     private ArrayList<Transactions> transactions;
     private String previousHash;
-    private int index;
+    private long index;
     
     
 	public Block () {
@@ -76,11 +76,11 @@ public class Block {
         this.previousHash = previousHash;
     }
 
-    public int getIndex() {
+    public long getIndex() {
         return this.index;
     }
 
-    public void setIndex(int index) {
+    public void setIndex(long index) {
         this.index = index;
     }
 

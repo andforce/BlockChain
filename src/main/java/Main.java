@@ -1,4 +1,4 @@
-import com.andforce.block.BlockChain;
+import com.andforce.block.BlockChainHelper;
 import com.andforce.block.utils.HashUtils;
 import com.andforce.block.utils.JsonUtils;
 import org.eclipse.jetty.server.Request;
@@ -11,11 +11,11 @@ import java.io.IOException;
 
 public class Main {
 
-    static BlockChain blockChain = BlockChain.getInstance();
+    static BlockChainHelper sBlockChainHelper = BlockChainHelper.getInstance();
 
     public static void main(String[] args) throws Exception {
 
-        blockChain.newBlock(1, HashUtils.getSHA256StrJava("1"));
+        sBlockChainHelper.newBlock(1, "1");
 
         Server server = new Server(8080);
         server.setHandler(new HelloHandler());
@@ -29,7 +29,7 @@ public class Main {
             response.setContentType("application/json");
             response.setStatus(HttpServletResponse.SC_OK);
             baseRequest.setHandled(true);
-            response.getWriter().println(JsonUtils.toStringSortByKey(blockChain.getChain()));
+            response.getWriter().println(JsonUtils.toStringSortByKey(sBlockChainHelper.getChain()));
         }
     }
 

@@ -1,6 +1,7 @@
 package com.andforce.block;
 
 import com.andforce.block.bean.Block;
+import com.andforce.block.bean.Chain;
 import com.andforce.block.bean.Transactions;
 import com.andforce.block.utils.HashUtils;
 import com.andforce.block.utils.JsonUtils;
@@ -10,28 +11,29 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-public class BlockChain {
+public class BlockChainHelper {
 
-    private static BlockChain mInstance = new BlockChain();
+    private static BlockChainHelper mInstance = new BlockChainHelper();
 
-    public static BlockChain getInstance() {
-        return mInstance;
-    }
-
-    private BlockChain(){
-        super();
-    }
-
-    private ArrayList<Block> mChain = new ArrayList<>();
+    private Chain mChain = new Chain();
 
     private ArrayList<Transactions> mTransactions = new ArrayList<>();
 
 
-    public ArrayList<Block> getChain() {
+    public static BlockChainHelper getInstance() {
+        return mInstance;
+    }
+
+    private BlockChainHelper(){
+        super();
+    }
+
+
+    public Chain getChain() {
         return mChain;
     }
 
-    public int newTransaction(String sender, String recipient, double amount) {
+    public long newTransaction(String sender, String recipient, double amount) {
         Transactions transactions = new Transactions();
         transactions.setSender(sender);
         transactions.setRecipient(recipient);
@@ -42,7 +44,7 @@ public class BlockChain {
 
     public Block newBlock(long proof, String previousHash) {
         Block block = new Block();
-        block.setIndex(mChain.size() + 1);
+        block.setIndex(mChain.getLength() + 1);
         block.setTimestamp(TimeUtils.getTimeLong());
         block.setTransactions(new ArrayList<>(mTransactions));
         block.setProof(proof);
@@ -50,16 +52,14 @@ public class BlockChain {
 
         mTransactions.clear();
 
-        mChain.add(block);
-
-        JSONObject jsonObject = new JSONObject(true);
-        jsonObject.toString();
-
+        mChain.addBlock(block);
         return block;
     }
 
     public Block lastBlock() {
-        return mChain.get(mChain.size() - 1);
+        ArrayList<Block> blocks = mChain.getBlocks();
+        int size = blocks.size();
+        return size == 0 ? null : blocks.get(size - 1);
     }
 
     public String hash(Block block) {

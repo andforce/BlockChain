@@ -1,20 +1,19 @@
 package com.andforce.block.http;
 
 
-import com.andforce.block.BlockChain;
-import com.andforce.block.bean.Block;
+import com.andforce.block.BlockChainHelper;
+import com.andforce.block.bean.Chain;
 import com.andforce.block.utils.JsonUtils;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
-import java.util.List;
 
 @Path("/")
 public class BlockChainApi {
 
-    private static BlockChain sBlockchain = BlockChain.getInstance();
+    private static BlockChainHelper sBlockchain = BlockChainHelper.getInstance();
 
     @GET
     @Path("/getChain")
@@ -26,7 +25,7 @@ public class BlockChainApi {
     @GET
     @Path("/getChainJson")
     @Produces(MediaType.APPLICATION_JSON)
-    public List<Block> getMessageJson() {
+    public Chain getMessageJson() {
         return sBlockchain.getChain();
     }
 
