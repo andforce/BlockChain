@@ -1,17 +1,9 @@
 import com.andforce.block.BlockChainHelper;
 import com.andforce.block.http.BlockChainApi;
-import com.andforce.block.utils.HashUtils;
-import com.andforce.block.utils.JsonUtils;
-import org.eclipse.jetty.server.Request;
 import org.eclipse.jetty.server.Server;
-import org.eclipse.jetty.server.handler.AbstractHandler;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
 import org.glassfish.jersey.servlet.ServletContainer;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
 
 import static org.eclipse.jetty.servlet.ServletContextHandler.NO_SESSIONS;
 

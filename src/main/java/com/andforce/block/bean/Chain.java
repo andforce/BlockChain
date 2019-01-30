@@ -25,9 +25,9 @@ public class Chain {
         this.mLength = length;
     }
 
-    public boolean addBlock(Block block){
+    public boolean addBlock(Block block) {
         boolean add = mBlocks.add(block);
-        if (add){
+        if (add) {
             mLength = mBlocks.size();
         }
         return add;

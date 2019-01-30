@@ -1,27 +1,27 @@
 package com.andforce.block.bean;
 
-import org.json.*;
+import org.json.JSONObject;
 
 
 public class Transactions {
-	
+
     private double amount;
     private String recipient;
     private String sender;
-    
-    
-	public Transactions () {
-		
-	}	
-        
-    public Transactions (JSONObject json) {
-    
+
+
+    public Transactions() {
+
+    }
+
+    public Transactions(JSONObject json) {
+
         this.amount = json.optDouble("amount");
         this.recipient = json.optString("recipient");
         this.sender = json.optString("sender");
 
     }
-    
+
     public double getAmount() {
         return this.amount;
     }
@@ -47,5 +47,4 @@ public class Transactions {
     }
 
 
-    
 }

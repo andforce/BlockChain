@@ -1,23 +1,25 @@
 package com.andforce.block.bean;
 
-import org.json.*;
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 
 public class Block {
-	
+
     private long proof;
     private long timestamp;
     private ArrayList<Transactions> transactions;
     private String previousHash;
     private long index;
-    
-    
-	public Block () {
-		
-	}	
-        
-    public Block (JSONObject json) {
-    
+
+
+    public Block() {
+
+    }
+
+    public Block(JSONObject json) {
+
         this.proof = json.optLong("proof");
         this.timestamp = json.optLong("timestamp");
 
@@ -31,8 +33,7 @@ public class Block {
                     this.transactions.add(new Transactions(item));
                 }
             }
-        }
-        else {
+        } else {
             JSONObject item = json.optJSONObject("transactions");
             if (null != item) {
                 this.transactions.add(new Transactions(item));
@@ -43,7 +44,7 @@ public class Block {
         this.index = json.optInt("index");
 
     }
-    
+
     public long getProof() {
         return this.proof;
     }
@@ -85,5 +86,4 @@ public class Block {
     }
 
 
-    
 }

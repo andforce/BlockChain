@@ -24,7 +24,7 @@ public class TimeUtils {
         int minute = cal.get(Calendar.MINUTE);
         int second = cal.get(Calendar.SECOND);
 
-        return  String.format(format, year, month, day, hour, minute, second);
+        return String.format(format, year, month, day, hour, minute, second);
     }
 
     private static final String sFormat = "%04d-%02d-%02dT%02d:%02d:%02d";
@@ -40,7 +40,7 @@ public class TimeUtils {
         int minute = cal.get(Calendar.MINUTE);
         int second = cal.get(Calendar.SECOND);
 
-        return  String.format(sFormat, year, month, day, hour, minute, second);
+        return String.format(sFormat, year, month, day, hour, minute, second);
     }
 
     public static long getTimeLong() {
@@ -54,6 +54,6 @@ public class TimeUtils {
         // 4、从本地时间里扣除这些差量，即可以取得UTC时间：
         cal.add(Calendar.MILLISECOND, -(zoneOffset + dstOffset));
 
-        return  cal.getTimeInMillis();
+        return cal.getTimeInMillis();
     }
 }

@@ -6,7 +6,6 @@ import com.andforce.block.bean.Transactions;
 import com.andforce.block.utils.HashUtils;
 import com.andforce.block.utils.JsonUtils;
 import com.andforce.block.utils.TimeUtils;
-import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
